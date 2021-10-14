@@ -1,27 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
 
-export default class CampsiteInfoComponent extends Component {
-  renderCampsite(campsite) {
-    return (
-      <div className="col-md-5 m1">
-        <Card>
-          <CardImg top src={campsite.image} alt={campsite.name} />
-          <CardBody>
-            <CardTitle>{campsite.name}</CardTitle>
-            <CardText>{campsite.description}</CardText>
-          </CardBody>
-        </Card>
-      </div>
-    );
-  }
+function RenderCampsite({ campsite }) {
+  return (
+    <div className="col-md-5 m1">
+      <Card>
+        <CardImg top src={campsite.image} alt={campsite.name} />
+        <CardBody>
+          <CardTitle>{campsite.name}</CardTitle>
+          <CardText>{campsite.description}</CardText>
+        </CardBody>
+      </Card>
+    </div>
+  );
+}
 
-  renderComments(comments) {
-    if (comments !== ("null" && "undefiend")) {
-      return (
-        <div className="col-md-5 m-1">
-          <h4>Comments</h4>
-          {comments.map((comment) => (
+function RenderComments({ comments }) {
+  // if (comments !== ("null" && "undefiend")) {
+  if (comments) {
+    return (
+      <div className="col-md-5 m-1">
+        <h4>Comments</h4>
+        {comments.map((comment) => {
+          return (
             <div key={comment.id}>
               <p>
                 {comment.text}
@@ -34,26 +35,28 @@ export default class CampsiteInfoComponent extends Component {
                 }).format(new Date(Date.parse(comment.date)))}
               </p>
             </div>
-          ))}
-        </div>
-      );
-    }
+          );
+        })}
+      </div>
+    );
   }
-
-  render() {
-    // if (this.props.name === "mia") {
-    //   return <div>{this.props.name}</div>;
-    // }
-    if (this.props.campsite) {
-      return (
-        <div className="container">
-          <div className="row">
-            {this.renderCampsite(this.props.campsite)}
-            {this.renderComments(this.props.campsite.comments)}
-          </div>
-        </div>
-      );
-    }
-    return <div>campsite is not selected</div>;
-  }
+  return <div />;
 }
+
+function CampsiteInfoComponent(props) {
+  // if (this.props.name === "mia") {
+  //   return <div>{this.props.name}</div>;
+  // }
+  if (props.campsite) {
+    return (
+      <div className="container">
+        <div className="row">
+          <RenderCampsite campsite={props.campsite} />
+          <RenderComments comments={props.comment} />
+        </div>
+      </div>
+    );
+  }
+  return <div>campsite is not selected</div>;
+}
+export default CampsiteInfoComponent;
