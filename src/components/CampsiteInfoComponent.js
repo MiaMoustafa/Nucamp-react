@@ -9,8 +9,8 @@ import {
 } from "reactstrap";
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Button, Label, Modal, ModalHeader, ModalBody } from "reactstrap";
-
 import { Link } from "react-router-dom";
+import { Loading } from "./LoadingComponent";
 
 const minLength = (val) => val && val.length >= 2;
 const maxLength = (val) => val && val.length <= 15;
@@ -73,9 +73,9 @@ class CommentForm extends Component {
               <div className="form-group">
                 <Label>Your Name</Label>
                 <Control.text
-                  model=".name"
-                  id="name"
-                  name="name"
+                  model=".author"
+                  id="author"
+                  name="author"
                   className="form-control"
                   validators={{
                     minLength: minLength,
@@ -96,9 +96,9 @@ class CommentForm extends Component {
               <div className="form-group">
                 <Label>Comment</Label>
                 <Control.textarea
-                  model=".comment"
-                  id="comment"
-                  name="comment"
+                  model=".text"
+                  id="text"
+                  name="text"
                   className="form-control"
                   rows="6"
                 />
@@ -155,6 +155,26 @@ function RenderComments({ comments, addComment, campsiteId }) {
 }
 
 function CampsiteInfoComponent(props) {
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  }
+  if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <h4>{props.errMess}</h4>
+          </div>
+        </div>
+      </div>
+    );
+  }
   // if (this.props.name === "mia") {
   //   return <div>{this.props.name}</div>;
   // }
